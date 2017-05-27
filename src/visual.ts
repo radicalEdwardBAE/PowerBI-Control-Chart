@@ -24,6 +24,15 @@
  *  THE SOFTWARE.
  */
 
+/*
+Control Chart Code
+This code is supplied as is and no responsibility or liability is taken for any claim, issues, damages 
+or other consequences of its use.
+Users are free to copy and modify the code. Please share any changes!
+Developed by: TCD in 2017.
+
+*/
+
 module powerbi.extensibility.visual {
     /**
          * Interface for ControlChart viewmodel.
