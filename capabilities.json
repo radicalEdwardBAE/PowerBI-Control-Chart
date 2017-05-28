@@ -397,7 +397,7 @@
                             },
                             {
                                 "displayName": "dd-mm-yy hh:mm",
-                                "value": "%d-%b-%y"
+                                "value": "%d-%b-%y %H:%M"
                             },
                             {
                                 "displayName": "mm-yy",
@@ -409,7 +409,7 @@
                             },
                             {
                                 "displayName": "mm-dd-yy hh:mm",
-                                "value": "%b-%d-%y"
+                                "value": "%b-%d-%y %H:%M"
                             },
                             {
                                 "displayName": "000",
