@@ -58,7 +58,7 @@ module powerbi.extensibility.visual {
         limitLine: StatisticsData;
         meanLine: StatisticsData;
         standardDeviations: number;
-   //     crossHairLine: StatisticsData;
+        //     crossHairLine: StatisticsData;
         xAxis: AxisData;
         yAxis: AxisData;
         showGridLines: boolean;
@@ -174,7 +174,7 @@ module powerbi.extensibility.visual {
             stageDividerLine: null,
             meanLine: null,
             limitLine: null,
-        //    crossHairLine: null,
+            //    crossHairLine: null,
             standardDeviations: 3,
             showGridLines: true,
             isDateRange: true,
@@ -225,7 +225,7 @@ module powerbi.extensibility.visual {
             textColor: getFill(dataViews[0], 'statistics', 'meanLabelColor', '#008000'),
             textSize: getValue<number>(dataViews[0].metadata.objects, 'statistics', 'meanLabelSize', 10),
             lineColor: getFill(dataViews[0], 'statistics', 'meanLineColor', '#32CD32'),
-            lineStyle: getValue<string>(dataViews[0].metadata.objects, 'statistics', 'meanLineStyle', '10,4'),
+            lineStyle: getValue<string>(dataViews[0].metadata.objects, 'statistics', 'meanLineStyle', '6,4'),
             show: getValue<boolean>(dataViews[0].metadata.objects, 'statistics', 'showMean', true)
         };
         let stageDividerLine: StatisticsData = {
@@ -239,7 +239,7 @@ module powerbi.extensibility.visual {
             textColor: getFill(dataViews[0], 'statistics', 'limitLabelColor', '#FFA500'),
             textSize: getValue<number>(dataViews[0].metadata.objects, 'statistics', 'limitLabelSize', 10),
             lineColor: getFill(dataViews[0], 'statistics', 'limitLineColor', '#FFA500'),
-            lineStyle: getValue<string>(dataViews[0].metadata.objects, 'statistics', 'limitLineStyle', '10,4'),
+            lineStyle: getValue<string>(dataViews[0].metadata.objects, 'statistics', 'limitLineStyle', '6,4'),
             show: getValue<boolean>(dataViews[0].metadata.objects, 'statistics', 'showLimits', true)
         };
         let xAxisData: AxisData = {
@@ -258,13 +258,13 @@ module powerbi.extensibility.visual {
             AxisLabelColor: getFill(dataViews[0], 'yAxis', 'yAxisLabelColor', '#2F4F4F'),
             AxisFormat: getValue<string>(dataViews[0].metadata.objects, 'yAxis', 'yAxisFormat', '.3s')
         };
-      /*  let crossHairData: StatisticsData = {
-            lineColor: getFill(dataViews[0], 'crossHairs', 'crossHairLineColor', '#40E0D0'),
-            textSize: getValue<number>(dataViews[0].metadata.objects, 'crossHairs', 'crossHairLabelSize', 10),
-            show: getValue<boolean>(dataViews[0].metadata.objects, 'crossHairs', 'showCrossHairs', true),
-            textColor: getFill(dataViews[0], 'crossHairs', 'crossHairLineColor', '#ADFF2F'),
-            lineStyle: '4,4'
-        };*/
+        /*  let crossHairData: StatisticsData = {
+              lineColor: getFill(dataViews[0], 'crossHairs', 'crossHairLineColor', '#40E0D0'),
+              textSize: getValue<number>(dataViews[0].metadata.objects, 'crossHairs', 'crossHairLabelSize', 10),
+              show: getValue<boolean>(dataViews[0].metadata.objects, 'crossHairs', 'showCrossHairs', true),
+              textColor: getFill(dataViews[0], 'crossHairs', 'crossHairLineColor', '#ADFF2F'),
+              lineStyle: '4,4'
+          };*/
 
         var mRange: number = getValue<number>(dataViews[0].metadata.objects, 'statistics', 'movingRange', 2);
         if (mRange < 2 || mRange > 50)
@@ -284,7 +284,7 @@ module powerbi.extensibility.visual {
             stageDividerLine: stageDividerLine,
             limitLine: limitLine,
             meanLine: meanLine,
-     //       crossHairLine: crossHairData,
+            //       crossHairLine: crossHairData,
             standardDeviations: getValue<number>(dataViews[0].metadata.objects, 'statistics', 'standardDeviations', 3),
             showGridLines: getValue<boolean>(dataViews[0].metadata.objects, 'chart', 'showGridLines', true),
             isDateRange: isDateRange,
@@ -351,27 +351,39 @@ module powerbi.extensibility.visual {
                     this.DrawStageDividers();   //stage changes
                 if (this.controlChartViewModel.limitLine.show)
                     this.PlotControlLimits();   //lcl and ucl
-                                     
-               //not used
-               // if (this.controlChartViewModel.crossHairLine.show)
-               //     this.DrawCrossHairs();
+
+                //not used
+                // if (this.controlChartViewModel.crossHairLine.show)
+                //     this.DrawCrossHairs();
                 //run rules
-              
-                            
+
+
                 this.ApplyRules();
                 this.DrawMRWarning();
+
+                //put border around plot area
+                var plot = this.plot;
+                var borderPath = this.svgGroupMain.append("rect")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("height", plot.height)
+                    .attr("width", plot.width)
+                    .style("stroke", "grey")
+                    .style("fill", "none")
+                    .style("stroke-width", 1);
             }
         }
 
         private CreateAxes(viewPortWidth: number, viewPortHeight: number) {
-            var xAxisOffset = 54;
-            var yAxisOffset = 54;
+            var xAxisOffset:number = 60;
+            var yAxisOffset:number = 54;
+
             var plot = {
                 xAxisOffset: xAxisOffset,
                 yAxisOffset: yAxisOffset,
                 xOffset: this.padding + xAxisOffset,
                 yOffset: this.padding,
-                width: viewPortWidth - (this.padding * 2) - xAxisOffset - 54,
+                width: viewPortWidth - (this.padding + xAxisOffset) * 2,  //  (this.padding * 2) - (2 * xAxisOffset),
                 height: viewPortHeight - (this.padding * 2) - yAxisOffset,
             };
             this.plot = plot;
@@ -381,15 +393,6 @@ module powerbi.extensibility.visual {
                 width: plot.width,
                 transform: 'translate(' + plot.xOffset + ',' + plot.yOffset + ')'
             });
-
-            var borderPath = this.svgGroupMain.append("rect")
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("height", plot.height)
-                .attr("width", plot.width)
-                .style("stroke", "grey")
-                .style("fill", "none")
-                .style("stroke-width", 1);
 
             let viewModel: ControlChartViewModel = this.controlChartViewModel;
             let vmXaxis = viewModel.xAxis;
@@ -505,7 +508,7 @@ module powerbi.extensibility.visual {
                 .style("font-size", '0px');
             this.svgGroupMain.append("text")
                 .attr("transform", "rotate(-90)")
-                .attr("y", 0 - xAxisOffset-10)
+                .attr("y", 0 - xAxisOffset - 10)
                 .attr("x", 0 - (plot.height / 2))
                 .attr("dy", "1em")
                 .style("text-anchor", "middle")
@@ -583,9 +586,42 @@ module powerbi.extensibility.visual {
             this.dots = dots;
         }
 
+        /* "crossHairs": {
+                    "displayName": "Crosshairs",
+                    "properties": {
+                        "showCrossHairs": {
+                            "type": {
+                                "bool": true
+                            },
+                            "displayName": "Show Crosshairs"
+                        },
+                        "crossHairLineColor": {
+                            "type": {
+                                "fill": {
+                                    "solid": {
+                                        "color": true
+                                    }
+                                }
+                            },
+                            "displayName": "Cross Hair Line Color",
+                            "description": "Select color for crosshairs"
+                        },
+                        "crossHairLabelSize": {
+                            "type": {
+                                "formatting": {
+                                    "fontSize": true
+                                }
+                            },
+                            "displayName": "Label Size",
+                            "description": "Select size of label"
+                        }
+                    }
+                },*/
+
+
         private DrawCrossHairs() {
             let viewModel: ControlChartViewModel = this.controlChartViewModel;
-       //     let crossHairLine = viewModel.crossHairLine;
+            //     let crossHairLine = viewModel.crossHairLine;
             var xScale = this.xScale;
             var yScale = this.yScale;
             //add focus lines and circle
@@ -651,38 +687,38 @@ module powerbi.extensibility.visual {
                 var yDomain = ([viewModel.minY, viewModel.maxY]);
                 var yScale2 = d3.scale.linear().range([plot.height, 0]).domain(yDomain);
 
-        /*        focus.select('#focusLineX')
-                    .attr('x1', x).attr('y1', yScale2(yDomain[0]))
-                    .attr('x2', x).attr('y2', yScale2(yDomain[1]))
-                    .style("stroke", crossHairLine.lineColor);
-                focus.select('#focusLineY')
-                    .attr('x1', xScale(xDomain[0])).attr('y1', y)
-                    .attr('x2', xScale(xDomain[1])).attr('y2', y)
-                    .style("stroke", crossHairLine.lineColor);
-
-                var dateFormat;
-                if (viewModel.isDateRange)
-                    dateFormat = d3.time.format(viewModel.xAxis.AxisFormat);
-                else
-                    dateFormat = d3.format(viewModel.xAxis.AxisFormat);
-
-                var yAxisFormat = d3.format(viewModel.yAxis.AxisFormat);
-                focus.select('#yAxisText')
-                    .text(yAxisFormat(d[1]).toString())
-                    .attr("y", y)
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.15em")
-                    .style("font-size", crossHairLine.textSize + 'px')
-                    .style("fill", crossHairLine.textColor);
-
-                focus.select('#xAxisText')
-                    .text(dateFormat(d[0]).toString())
-                    .attr("y", plot.height)
-                    .attr("x", x)
-                    .style("text-anchor", "middle")
-                    .attr("dy", ".95em")
-                    .style("font-size", crossHairLine.textSize + 'px')
-                    .style("fill", crossHairLine.textColor);*/
+                /*        focus.select('#focusLineX')
+                            .attr('x1', x).attr('y1', yScale2(yDomain[0]))
+                            .attr('x2', x).attr('y2', yScale2(yDomain[1]))
+                            .style("stroke", crossHairLine.lineColor);
+                        focus.select('#focusLineY')
+                            .attr('x1', xScale(xDomain[0])).attr('y1', y)
+                            .attr('x2', xScale(xDomain[1])).attr('y2', y)
+                            .style("stroke", crossHairLine.lineColor);
+        
+                        var dateFormat;
+                        if (viewModel.isDateRange)
+                            dateFormat = d3.time.format(viewModel.xAxis.AxisFormat);
+                        else
+                            dateFormat = d3.format(viewModel.xAxis.AxisFormat);
+        
+                        var yAxisFormat = d3.format(viewModel.yAxis.AxisFormat);
+                        focus.select('#yAxisText')
+                            .text(yAxisFormat(d[1]).toString())
+                            .attr("y", y)
+                            .style("text-anchor", "end")
+                            .attr("dx", "-.15em")
+                            .style("font-size", crossHairLine.textSize + 'px')
+                            .style("fill", crossHairLine.textColor);
+        
+                        focus.select('#xAxisText')
+                            .text(dateFormat(d[0]).toString())
+                            .attr("y", plot.height)
+                            .attr("x", x)
+                            .style("text-anchor", "middle")
+                            .attr("dy", ".95em")
+                            .style("font-size", crossHairLine.textSize + 'px')
+                            .style("fill", crossHairLine.textColor);*/
             }
         }
 
@@ -828,17 +864,33 @@ module powerbi.extensibility.visual {
             // x&#x0304;
             var xbar = 0x0304;
             var yformatValue = d3.format(viewModel.yAxis.AxisFormat);
+
+            var stages = this.chartStages;
+            var plot = this.plot;
             this.svgGroupMain.selectAll("meanText")
                 .data(meanLine)
                 .enter().append("text")
-                .attr("x", function (d) { return xScale(d['x1']).toString() })
+                .attr("x", function (d) { if (stages.length == 1) return plot.width; else { return xScale(d['x1']).toString() } })
                 .attr("y", function (d) { return yScale(d['y2']).toString() })
-                .attr("dx", ".35em")
-                .attr("dy", "-.25em")
+                .attr("dx", ".15em")
+                .attr("dy", function (d) { if (stages.length == 1) return ".30em"; else return "-.25em" })
                 .attr("text-anchor", "start")
                 .text(function (d) { return 'x' + String.fromCharCode(xbar) + ' = ' + yformatValue(d['y2']).toString() })
                 .style("font-size", mLine.textSize + 'px')
                 .style("fill", mLine.textColor);
+
+            /* this.svgGroupMain.selectAll("meanText")
+                 .data(meanLine)
+                 .enter().append("text")
+                 .attr("x", function (d) { return xScale(d['x1']).toString() })
+                 .attr("y", function (d) { return yScale(d['y2']).toString() })
+                 .attr("dx", ".15em")
+                 .attr("dy", "-.25em")
+                 .attr("text-anchor", "start")
+                 .text(function (d) { return 'x' + String.fromCharCode(xbar) + ' = ' + yformatValue(d['y2']).toString() })
+                 .style("font-size", mLine.textSize + 'px')
+                 .style("fill", mLine.textColor);*/
+
         }
 
         private CalcStats() {
@@ -861,7 +913,7 @@ module powerbi.extensibility.visual {
             var rBar: number;
             var lCL: number;
             var uCL: number;
-    
+
             for (let i = 0; i < stages.length; i++) {
                 mrRangeSum = 0;
                 if (mr > stages[i].count) {
@@ -906,6 +958,11 @@ module powerbi.extensibility.visual {
                     }
                 }
             }
+
+            //remove last stageDivider since its going to overplot on the Y2 axis
+            if (stageDividers.length > 0)
+                stageDividers.pop();
+
             this.chartStages = stages;
             this.meanLine = meanLine;
             this.lclLines = lclLines;
@@ -971,28 +1028,34 @@ module powerbi.extensibility.visual {
                 .attr("points", function (d) { return xScale(d['x1']).toString() + "," + yScale(d['y1']).toString() + "," + xScale(d['x2']).toString() + "," + yScale(d['y2']).toString() })
                 .style({ "stroke": limitLine.lineColor, "stroke-width": 1.5, "stroke-dasharray": (limitLine.lineStyle) });
             var yformatValue = d3.format(viewModel.yAxis.AxisFormat);
+
+            var stages = this.chartStages;
+            var plot = this.plot;
+
             this.svgGroupMain.selectAll("uclText")
                 .data(uclLines)
                 .enter().append("text")
-                .attr("x", function (d) { return xScale(d['x1']).toString() })
+                .attr("x", function (d) { if (stages.length == 1) return plot.width; else { return xScale(d['x1']).toString() } })
                 .attr("y", function (d) { return yScale(d['y1']).toString() })
-                .attr("dx", ".35em")
-                .attr("dy", "-.25em")
+                .attr("dx", ".15em")
+                .attr("dy", function (d) { if (stages.length == 1) return ".30em"; else return "-.25em" })
                 .attr("text-anchor", "start")
                 .text(function (d) { return 'UCL = ' + yformatValue(d['y1']).toString() })
                 .style("font-size", limitLine.textSize + 'px')
                 .style("fill", limitLine.textColor);
+
             this.svgGroupMain.selectAll("lclText")
                 .data(lclLines)
                 .enter().append("text")
-                .attr("x", function (d) { return xScale(d['x1']).toString() })
+                .attr("x", function (d) { if (stages.length == 1) return plot.width; else { return xScale(d['x1']).toString() } })
                 .attr("y", function (d) { return yScale(d['y1']).toString() })
-                .attr("dx", ".35em")
-                .attr("dy", "-.25em")
+                .attr("dx", ".15em")
+                .attr("dy", function (d) { if (stages.length == 1) return ".30em"; else return ".95em" })
                 .attr("text-anchor", "start")
                 .text(function (d) { return 'LCL = ' + yformatValue(d['y1']).toString() })
                 .style("font-size", limitLine.textSize + 'px')
                 .style("fill", limitLine.textColor);
+
         }
 
         private ApplyRules() {
@@ -1218,18 +1281,18 @@ module powerbi.extensibility.visual {
                     };
                     instances.push(config);
                     break;
-              /*  case 'crossHairs':
-                    var config: VisualObjectInstance = {
-                        objectName: objectName,
-                        selector: null,
-                        properties: {
-                            crossHairLineColor: viewModel.crossHairLine.lineColor,
-                            crossHairLabelSize: viewModel.crossHairLine.textSize,
-                            showCrossHairs: viewModel.crossHairLine.show
-                        }
-                    };
-                    instances.push(config);
-                    break;*/
+                /*  case 'crossHairs':
+                      var config: VisualObjectInstance = {
+                          objectName: objectName,
+                          selector: null,
+                          properties: {
+                              crossHairLineColor: viewModel.crossHairLine.lineColor,
+                              crossHairLabelSize: viewModel.crossHairLine.textSize,
+                              showCrossHairs: viewModel.crossHairLine.show
+                          }
+                      };
+                      instances.push(config);
+                      break;*/
                 case 'rules':
                     var config: VisualObjectInstance = {
                         objectName: objectName,
