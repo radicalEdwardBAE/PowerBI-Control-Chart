@@ -90,6 +90,10 @@
                                 "value": ""
                             },
                             {
+                                "displayName": "Small Dash",
+                                "value": "6,4"
+                            },
+                            {
                                 "displayName": "Dash",
                                 "value": "10,4"
                             },
@@ -100,10 +104,6 @@
                             {
                                 "displayName": "Dash-Dot",
                                 "value": "10,2,4"
-                            },
-                            {
-                                "displayName": "Small Dash",
-                                "value": "6,4"
                             }
                         ]
                     },
@@ -148,6 +148,10 @@
                                 "value": ""
                             },
                             {
+                                "displayName": "Small Dash",
+                                "value": "6,4"
+                            },
+                            {
                                 "displayName": "Dash",
                                 "value": "10,4"
                             },
@@ -158,11 +162,7 @@
                             {
                                 "displayName": "Dash-Dot",
                                 "value": "10,2,4"
-                            },
-                            {
-                                "displayName": "Small Dash",
-                                "value": "6,4"
-                            }
+                            }                            
                         ]
                     },
                     "displayName": "Divider Line Style",
@@ -207,6 +207,10 @@
                                 "value": ""
                             },
                             {
+                                "displayName": "Small Dash",
+                                "value": "6,4"
+                            },
+                            {
                                 "displayName": "Dash",
                                 "value": "10,4"
                             },
@@ -217,11 +221,7 @@
                             {
                                 "displayName": "Dash-Dot",
                                 "value": "10,2,4"
-                            },
-                            {
-                                "displayName": "Small Dash",
-                                "value": "6,4"
-                            }
+                            }                            
                         ]
                     },
                     "displayName": "Line Style",
@@ -265,6 +265,10 @@
                                 "displayName": "Solid",
                                 "value": ""
                             },
+                             {
+                                "displayName": "Small Dash",
+                                "value": "6,4"
+                            },
                             {
                                 "displayName": "Dash",
                                 "value": "10,4"
@@ -276,11 +280,7 @@
                             {
                                 "displayName": "Dash-Dot",
                                 "value": "10,2,4"
-                            },
-                            {
-                                "displayName": "Small Dash",
-                                "value": "6,4"
-                            }
+                            }                           
                         ]
                     },
                     "displayName": "Mean Line Style",
@@ -344,7 +344,7 @@
                     "type": {
                         "numeric": true
                     },
-                     "displayName": "Moving Range",
+                    "displayName": "Moving Range",
                     "description": "Select Moving Range for estimation of standard deviation"
                 }
             }
@@ -531,7 +531,6 @@
                 }
             }
         },
-      
         "rules": {
             "displayName": "Rules",
             "properties": {
