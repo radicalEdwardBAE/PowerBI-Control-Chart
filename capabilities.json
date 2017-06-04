@@ -1,0 +1,573 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Category Data",
+            "name": "datetime",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Measured Data",
+            "name": "value",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Stage Column",
+            "name": "stagecolumn",
+            "kind": "Measure"
+        }
+    ],
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "datetime": {
+                        "min": 1,
+                        "max": 1
+                    },
+                    "value": {
+                        "max": 1
+                    },
+                    "stagecolumn": {
+                        "max": 1
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "datetime"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {}
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "value"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "stagecolumn"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "objects": {
+        "chart": {
+            "displayName": "Chart",
+            "properties": {
+                "dataColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Data Point Color"
+                },
+                "lineColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Line Color"
+                },
+                "lineStyle": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "Solid",
+                                "value": ""
+                            },
+                            {
+                                "displayName": "Dash",
+                                "value": "10,4"
+                            },
+                            {
+                                "displayName": "Dot",
+                                "value": "2,2"
+                            },
+                            {
+                                "displayName": "Dash-Dot",
+                                "value": "10,2,4"
+                            },
+                            {
+                                "displayName": "Small Dash",
+                                "value": "6,4"
+                            }
+                        ]
+                    },
+                    "displayName": "Line Style",
+                    "description": "Select line style"
+                },
+                "showGridLines": {
+                    "type": {
+                        "bool": true
+                    },
+                    "displayName": "Show Grid Lines",
+                    "description": "Make grid lines visible"
+                }
+            }
+        },
+        "statistics": {
+            "displayName": "Statistics",
+            "properties": {
+                "showDividers": {
+                    "type": {
+                        "bool": true
+                    },
+                    "displayName": "Show Stage Dividers",
+                    "description": "Make Stage Dividers visible"
+                },
+                "stageDividerColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Stage Divider Color",
+                    "description": "Select Stage Divider line color"
+                },
+                "stageDividerLineStyle": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "Solid",
+                                "value": ""
+                            },
+                            {
+                                "displayName": "Dash",
+                                "value": "10,4"
+                            },
+                            {
+                                "displayName": "Dot",
+                                "value": "2,2"
+                            },
+                            {
+                                "displayName": "Dash-Dot",
+                                "value": "10,2,4"
+                            },
+                            {
+                                "displayName": "Small Dash",
+                                "value": "6,4"
+                            }
+                        ]
+                    },
+                    "displayName": "Divider Line Style",
+                    "description": "Select stage divider line style"
+                },
+                "stageLabelColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Stage Label Color",
+                    "description": "Select Stage Divider label color"
+                },
+                "stageDividerLabelSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    },
+                    "displayName": "Stage Divider Label Size",
+                    "description": "Select Label size"
+                },
+                "limitLineColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Limit Line Color",
+                    "description": "Select UCL and LCL line color"
+                },
+                "limitLineStyle": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "Solid",
+                                "value": ""
+                            },
+                            {
+                                "displayName": "Dash",
+                                "value": "10,4"
+                            },
+                            {
+                                "displayName": "Dot",
+                                "value": "2,2"
+                            },
+                            {
+                                "displayName": "Dash-Dot",
+                                "value": "10,2,4"
+                            },
+                            {
+                                "displayName": "Small Dash",
+                                "value": "6,4"
+                            }
+                        ]
+                    },
+                    "displayName": "Line Style",
+                    "description": "Select line style"
+                },
+                "limitLabelColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Limit Label Color",
+                    "description": "Select UCL and LCL label color"
+                },
+                "limitLabelSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    },
+                    "displayName": "Limit Label Size",
+                    "description": "Select UCL and LCL Label size"
+                },
+                "meanLineColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Mean Line Color",
+                    "description": "Select Mean line color"
+                },
+                "meanLineStyle": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "Solid",
+                                "value": ""
+                            },
+                            {
+                                "displayName": "Dash",
+                                "value": "10,4"
+                            },
+                            {
+                                "displayName": "Dot",
+                                "value": "2,2"
+                            },
+                            {
+                                "displayName": "Dash-Dot",
+                                "value": "10,2,4"
+                            },
+                            {
+                                "displayName": "Small Dash",
+                                "value": "6,4"
+                            }
+                        ]
+                    },
+                    "displayName": "Mean Line Style",
+                    "description": "Select Mean line style"
+                },
+                "meanLabelColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Mean Label Color",
+                    "description": "Select Mean Label color"
+                },
+                "meanLabelSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    },
+                    "displayName": "Mean Label Size",
+                    "description": "Select Mean Label size"
+                },
+                "showMean": {
+                    "type": {
+                        "bool": true
+                    },
+                    "displayName": "Show Mean",
+                    "description": "Toggle Mean line visibility"
+                },
+                "showLimits": {
+                    "type": {
+                        "bool": true
+                    },
+                    "displayName": "Show Control Limits",
+                    "description": "Toggle UCL and LCL lines visibility"
+                },
+                "standardDeviations": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "1 SD",
+                                "value": "1"
+                            },
+                            {
+                                "displayName": "2 SD",
+                                "value": "2"
+                            },
+                            {
+                                "displayName": "3 SD",
+                                "value": "3"
+                            }
+                        ]
+                    },
+                    "displayName": "Standard Deviation",
+                    "description": "Select number of standard deviations to set UCL and LCL"
+                },
+                "movingRange": {
+                    "type": {
+                        "numeric": true
+                    },
+                     "displayName": "Moving Range",
+                    "description": "Select Moving Range for estimation of standard deviation"
+                }
+            }
+        },
+        "xAxis": {
+            "displayName": "X Axis",
+            "properties": {
+                "xAxisTitle": {
+                    "type": {
+                        "text": true
+                    },
+                    "displayName": "Title"
+                },
+                "xAxisTitleColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Title Color"
+                },
+                "xAxisTitleSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    },
+                    "displayName": "Title Size"
+                },
+                "xAxisLabelColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Axis Label Color"
+                },
+                "xAxisLabelSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    },
+                    "displayName": "Axis Label Size"
+                },
+                "xAxisFormat": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "dd-mm",
+                                "value": "%d-%b"
+                            },
+                            {
+                                "displayName": "dd-mm-yy",
+                                "value": "%d-%b-%y"
+                            },
+                            {
+                                "displayName": "dd-mm-yy hh:mm",
+                                "value": "%d-%b-%y %H:%M"
+                            },
+                            {
+                                "displayName": "mm-yy",
+                                "value": "%b-%y"
+                            },
+                            {
+                                "displayName": "mm-dd-yy",
+                                "value": "%b-%d-%y"
+                            },
+                            {
+                                "displayName": "mm-dd-yy hh:mm",
+                                "value": "%b-%d-%y %H:%M"
+                            },
+                            {
+                                "displayName": "0",
+                                "value": ".1s"
+                            },
+                            {
+                                "displayName": "00",
+                                "value": ".2s"
+                            },
+                            {
+                                "displayName": "000",
+                                "value": ".3s"
+                            },
+                            {
+                                "displayName": "0000",
+                                "value": ".4s"
+                            },
+                            {
+                                "displayName": "00000",
+                                "value": ".5s"
+                            },
+                            {
+                                "displayName": "000000",
+                                "value": ".6s"
+                            }
+                        ]
+                    },
+                    "displayName": "Axis Label Format",
+                    "description": "Select format for X Axis Labels"
+                }
+            }
+        },
+        "yAxis": {
+            "displayName": "Y Axis",
+            "properties": {
+                "yAxisTitle": {
+                    "type": {
+                        "text": true
+                    },
+                    "displayName": "Title"
+                },
+                "yAxisTitleColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Title Color"
+                },
+                "yAxisTitleSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    },
+                    "displayName": "Title Size"
+                },
+                "yAxisLabelColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Axis Label Color"
+                },
+                "yAxisLabelSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    },
+                    "displayName": "Axis Label Size"
+                },
+                "yAxisFormat": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "0",
+                                "value": ".1s"
+                            },
+                            {
+                                "displayName": "00",
+                                "value": ".2s"
+                            },
+                            {
+                                "displayName": "000",
+                                "value": ".3s"
+                            },
+                            {
+                                "displayName": "0000",
+                                "value": ".4s"
+                            },
+                            {
+                                "displayName": "00000",
+                                "value": ".5s"
+                            },
+                            {
+                                "displayName": "000000",
+                                "value": ".6s"
+                            }
+                        ]
+                    },
+                    "displayName": "Axis Label Format",
+                    "description": "Select format for Y Axis Labels"
+                }
+            }
+        },
+      
+        "rules": {
+            "displayName": "Rules",
+            "properties": {
+                "ruleColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    },
+                    "displayName": "Highlight Color",
+                    "description": "Select color for rules "
+                },
+                "runRule1": {
+                    "type": {
+                        "bool": true
+                    },
+                    "displayName": "Rule 1",
+                    "description": "Highlight values above UCL or below LCL"
+                },
+                "runRule2": {
+                    "type": {
+                        "bool": true
+                    },
+                    "displayName": "Rule 2",
+                    "description": "Highlight sequences of 6 or more consecutive increasing or decreasing values"
+                },
+                "runRule3": {
+                    "type": {
+                        "bool": true
+                    },
+                    "displayName": "Rule 3",
+                    "description": "Highlight values of 9 or more consecutive values above or below mean"
+                }
+            }
+        }
+    }
+}
