@@ -32,20 +32,19 @@ module powerbi.extensibility.visual {
          * @property {ChartDataPoint[]} dataPoints  - Set of data points the visual will render.
          * @property {any} minX                     - minimum value of X axis - can be date or number
          * @property {any} maxX                     - maximum value of X axis - can be date or number
-         * @property {any} minY                     - minimum value of Y axis - can be date or number
-         * @property {any} maxY                     - maximum value of Y axis - can be date or number
+         * @property {any} minY                     - minimum value of Y axis - can be number
+         * @property {any} maxY                     - maximum value of Y axis - can be number
          * @property {interface} data               - LineData - data point line
          * @property {interface} stageDividerLine   - StatisticsData - contains info on line and labels
          * @property {interface} limitLine          - StatisticsData - contains info on line and labels
          * @property {interface} meanLine           - StatisticsData - contains info on line and labels
-         * @property {interface} crossHairLine      - StatisticsData - contains info on line and labels
          * @property {interface} xAxis              - AxisData - contains info on labels
          * @property {interface} yAxis              - minimum value of X axis - can be date or number
          * @property {boolean} showGridLines        - show gridlines
          * @property {boolean} isDateRange          - is the X axis a date or numeric range?
-         * @property {boolean} runRule1              - run rule 1
-         * @property {boolean} runRule2              - run rule 2
-         * @property {boolean} runRule3              - run rule 3
+         * @property {boolean} runRule1             - run rule 1
+         * @property {boolean} runRule2             - run rule 2
+         * @property {boolean} runRule3             - run rule 3
          */
     interface ControlChartViewModel {
         dataPoints: ChartDataPoint[];
@@ -58,7 +57,6 @@ module powerbi.extensibility.visual {
         limitLine: StatisticsData;
         meanLine: StatisticsData;
         standardDeviations: number;
-        //     crossHairLine: StatisticsData;
         xAxis: AxisData;
         yAxis: AxisData;
         showGridLines: boolean;
@@ -103,7 +101,7 @@ module powerbi.extensibility.visual {
      * Interface for ControlChart data points.
      *
      * @interface
-     * @property {Object} xvalue    - Data value for point. - date or number
+     * @property {Object} xvalue            - Data value for point. - date or number
      * @property {number} yValue            - y axis value.
      */
     interface ChartDataPoint {
@@ -174,7 +172,6 @@ module powerbi.extensibility.visual {
             stageDividerLine: null,
             meanLine: null,
             limitLine: null,
-            //    crossHairLine: null,
             standardDeviations: 3,
             showGridLines: true,
             isDateRange: true,
@@ -207,7 +204,6 @@ module powerbi.extensibility.visual {
                 MRSum: 0
             });
         }
-        //ChartDataPoints.sort( (cat1, cat2) => { return cat2.Value - cat1.Value; })
         var isDateRange: boolean = (Object.prototype.toString.call(ChartDataPoints[0].xValue) === '[object Date]');
 
         var xAxisFormat: any;
@@ -258,13 +254,6 @@ module powerbi.extensibility.visual {
             AxisLabelColor: getFill(dataViews[0], 'yAxis', 'yAxisLabelColor', '#2F4F4F'),
             AxisFormat: getValue<string>(dataViews[0].metadata.objects, 'yAxis', 'yAxisFormat', '.3s')
         };
-        /*  let crossHairData: StatisticsData = {
-              lineColor: getFill(dataViews[0], 'crossHairs', 'crossHairLineColor', '#40E0D0'),
-              textSize: getValue<number>(dataViews[0].metadata.objects, 'crossHairs', 'crossHairLabelSize', 10),
-              show: getValue<boolean>(dataViews[0].metadata.objects, 'crossHairs', 'showCrossHairs', true),
-              textColor: getFill(dataViews[0], 'crossHairs', 'crossHairLineColor', '#ADFF2F'),
-              lineStyle: '4,4'
-          };*/
 
         var mRange: number = getValue<number>(dataViews[0].metadata.objects, 'statistics', 'movingRange', 2);
         if (mRange < 2 || mRange > 50)
@@ -284,7 +273,6 @@ module powerbi.extensibility.visual {
             stageDividerLine: stageDividerLine,
             limitLine: limitLine,
             meanLine: meanLine,
-            //       crossHairLine: crossHairData,
             standardDeviations: getValue<number>(dataViews[0].metadata.objects, 'statistics', 'standardDeviations', 3),
             showGridLines: getValue<boolean>(dataViews[0].metadata.objects, 'chart', 'showGridLines', true),
             isDateRange: isDateRange,
@@ -316,7 +304,6 @@ module powerbi.extensibility.visual {
         private lclLines = [];
         private stageDividers = [];
         private dots;
-
         private tooltipServiceWrapper: ITooltipServiceWrapper;
 
         constructor(options: VisualConstructorOptions) {
@@ -345,17 +332,16 @@ module powerbi.extensibility.visual {
             this.svgGroupMain.selectAll("*").remove();
 
             if (this.controlChartViewModel && this.controlChartViewModel.dataPoints[0]) {
-                this.GetStages();           //determine stage groups
-                this.CalcStats();          //calc mean and sd
-                this.CreateAxes(options.viewport.width, options.viewport.height);
-                //           this.PlotData();            //plot basic raw data
+                this.GetStages();                                                   //determine stage groups
+                this.CalcStats();                                                   //calc mean and sd
+                this.CreateAxes(options.viewport.width, options.viewport.height);               
                 if (this.controlChartViewModel.meanLine.show)
-                    this.PlotMean();            //mean line
+                    this.PlotMean();                                                //mean line
                 if (this.controlChartViewModel.stageDividerLine.show)
-                    this.DrawStageDividers();   //stage changes
+                    this.DrawStageDividers();                                       //stage changes
                 if (this.controlChartViewModel.limitLine.show)
-                    this.PlotControlLimits();   //lcl and ucl
-                this.PlotData();            //plot basic raw data
+                    this.PlotControlLimits();                                       //lcl and ucl
+                this.PlotData();                                                    //plot basic raw data
                 this.ApplyRules();
                 this.DrawMRWarning();
 
@@ -603,39 +589,6 @@ module powerbi.extensibility.visual {
                 color: datacolor
             }];
         }
-
-        /* "crossHairs": {
-                    "displayName": "Crosshairs",
-                    "properties": {
-                        "showCrossHairs": {
-                            "type": {
-                                "bool": true
-                            },
-                            "displayName": "Show Crosshairs"
-                        },
-                        "crossHairLineColor": {
-                            "type": {
-                                "fill": {
-                                    "solid": {
-                                        "color": true
-                                    }
-                                }
-                            },
-                            "displayName": "Cross Hair Line Color",
-                            "description": "Select color for crosshairs"
-                        },
-                        "crossHairLabelSize": {
-                            "type": {
-                                "formatting": {
-                                    "fontSize": true
-                                }
-                            },
-                            "displayName": "Label Size",
-                            "description": "Select size of label"
-                        }
-                    }
-                },*/
-
 
         private DrawCrossHairs() {
             let viewModel: ControlChartViewModel = this.controlChartViewModel;
@@ -1051,7 +1004,6 @@ module powerbi.extensibility.visual {
             }];
         }
 
-
         private PlotControlLimits() {
             let viewModel: ControlChartViewModel = this.controlChartViewModel;
             let limitLine = viewModel.limitLine;
@@ -1125,7 +1077,6 @@ module powerbi.extensibility.visual {
                 color: datacolor
             }];
         }
-
 
         private ApplyRules() {
             let chartStages = this.chartStages;
@@ -1350,18 +1301,6 @@ module powerbi.extensibility.visual {
                     };
                     instances.push(config);
                     break;
-                /*  case 'crossHairs':
-                      var config: VisualObjectInstance = {
-                          objectName: objectName,
-                          selector: null,
-                          properties: {
-                              crossHairLineColor: viewModel.crossHairLine.lineColor,
-                              crossHairLabelSize: viewModel.crossHairLine.textSize,
-                              showCrossHairs: viewModel.crossHairLine.show
-                          }
-                      };
-                      instances.push(config);
-                      break;*/
                 case 'rules':
                     var config: VisualObjectInstance = {
                         objectName: objectName,
