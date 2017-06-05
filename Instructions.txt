@@ -1,0 +1,11 @@
+Instructions:
+1. Select SampleData.xlsx and use GetData to import into PowerBI
+2. Select X for Category Data
+3. Select Y for Measured Data
+4. Select stage for Stage Column
+5. Select required standard deviation and Moving Range from Statistics menu
+
+NB: The stage column is normally a non-aggregated column that is used to define the Subgrouping.
+
+
+The SampleData2.xlsx in the root folder is a much larger dataset (>8000 records) and uses Date as the Category Data. To try that dataset, use Grade as the Stage Column and MXMDosage as the MeasuredData. Add a Slicer visual to filter the grades and another slicer to filter dates.
