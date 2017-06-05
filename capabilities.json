@@ -1,12 +1,12 @@
 {
     "dataRoles": [
         {
-            "displayName": "Category Data",
+            "displayName": "X Axis Data",
             "name": "datetime",
             "kind": "Grouping"
         },
         {
-            "displayName": "Measured Data",
+            "displayName": "Y Axis (Measured) Data",
             "name": "value",
             "kind": "Measure"
         },
