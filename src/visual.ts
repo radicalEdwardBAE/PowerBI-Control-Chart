@@ -941,8 +941,8 @@ module powerbi.extensibility.visual {
             }
 
             //remove last stageDivider since its going to overplot on the Y2 axis
-            if (stageDividers.length > 0)
-                stageDividers.pop();
+         //   if (stageDividers.length > 0)
+         //       stageDividers.pop();
 
             this.chartStages = stages;
             this.meanLine = meanLine;
