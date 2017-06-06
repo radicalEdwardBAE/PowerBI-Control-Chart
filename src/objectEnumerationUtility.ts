@@ -80,13 +80,31 @@ module powerbi.extensibility.visual {
             if (objects) {
                 var config = objects[objectName];
                 if (config) {
-                    let fill:Fill = <Fill>config[propertyName];
+                    let fill: Fill = <Fill>config[propertyName];
                     if (fill !== undefined && fill.solid !== undefined && fill.solid.color !== undefined)
                         return fill.solid.color;
                 }
             }
         }
         //return { solid: { color: defaultValue}}; // { solid: { color: '#30ADFF' } };
-        return  defaultValue;
+        return defaultValue;
     }
+    
+    export function logExceptions(): MethodDecorator {
+        return function (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<Function>)
+        : TypedPropertyDescriptor<Function> {
+            
+            return {
+                value: function () {
+                    try {
+                        return descriptor.value.apply(this, arguments);
+                    } catch (e) {
+                        console.error(e);
+                        throw e;
+                    }
+                }
+            }
+        }
+    }
+
 }
