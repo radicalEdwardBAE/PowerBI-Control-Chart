@@ -3,17 +3,25 @@
         {
             "displayName": "X Axis Data",
             "name": "xAxis",
-            "kind": "Grouping"
+            "kind": "Grouping",
+            "description": "Select X Axis data that is either numeric or date-based"
         },
         {
             "displayName": "Y Axis (Measured) Data",
             "name": "yAxis",
-            "kind": "Measure"
+            "kind": "Measure",
+            "description": "Select Y Axis data that is numeric",
+            "requiredTypes": [
+                {
+                    "numeric": true
+                }
+            ]
         },
         {
             "displayName": "Stage Names",
             "name": "stagecolumn",
-            "kind": "Measure"
+            "kind": "Measure",
+            "description": "Select column that identifies stage names"
         }
     ],
     "dataViewMappings": [
