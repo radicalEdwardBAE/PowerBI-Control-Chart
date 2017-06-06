@@ -2,16 +2,16 @@
     "dataRoles": [
         {
             "displayName": "X Axis Data",
-            "name": "datetime",
+            "name": "xAxis",
             "kind": "Grouping"
         },
         {
             "displayName": "Y Axis (Measured) Data",
-            "name": "value",
+            "name": "yAxis",
             "kind": "Measure"
         },
         {
-            "displayName": "Stage Column",
+            "displayName": "Stage Names",
             "name": "stagecolumn",
             "kind": "Measure"
         }
@@ -20,14 +20,15 @@
         {
             "conditions": [
                 {
-                    "datetime": {
+                    "xAxis": {
                         "min": 1,
                         "max": 1
                     },
-                    "value": {
+                    "yAxis": {
                         "max": 1
                     },
                     "stagecolumn": {
+                        "min": 0,
                         "max": 1
                     }
                 }
@@ -35,7 +36,7 @@
             "categorical": {
                 "categories": {
                     "for": {
-                        "in": "datetime"
+                        "in": "xAxis"
                     },
                     "dataReductionAlgorithm": {
                         "top": {}
@@ -45,7 +46,7 @@
                     "select": [
                         {
                             "bind": {
-                                "to": "value"
+                                "to": "yAxis"
                             }
                         },
                         {
@@ -162,7 +163,7 @@
                             {
                                 "displayName": "Dash-Dot",
                                 "value": "10,2,4"
-                            }                            
+                            }
                         ]
                     },
                     "displayName": "Divider Line Style",
@@ -221,7 +222,7 @@
                             {
                                 "displayName": "Dash-Dot",
                                 "value": "10,2,4"
-                            }                            
+                            }
                         ]
                     },
                     "displayName": "Line Style",
@@ -265,7 +266,7 @@
                                 "displayName": "Solid",
                                 "value": ""
                             },
-                             {
+                            {
                                 "displayName": "Small Dash",
                                 "value": "6,4"
                             },
@@ -280,7 +281,7 @@
                             {
                                 "displayName": "Dash-Dot",
                                 "value": "10,2,4"
-                            }                           
+                            }
                         ]
                     },
                     "displayName": "Mean Line Style",
