@@ -1218,7 +1218,6 @@ module powerbi.extensibility.visual {
             var instances: VisualObjectInstance[] = [];
             var viewModel = this.controlChartViewModel;
             var objectName = options.objectName;
-
             switch (objectName) {
                 case 'chart':
                     var config: VisualObjectInstance = {
