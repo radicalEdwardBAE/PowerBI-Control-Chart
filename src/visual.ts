@@ -322,16 +322,18 @@ module powerbi.extensibility.visual {
             this.tooltipServiceWrapper = createTooltipServiceWrapper(this.host.tooltipService, options.element);
         }
 
+       // @logExceptions()
+
         public update(options: VisualUpdateOptions) {
-            var categorical = options.dataViews[0].categorical;           
             // remove all existing SVG elements 
             this.svgGroupMain.selectAll("*").remove();
             this.svgRoot.empty();
-            
-            if (typeof categorical.categories === "undefined" || typeof categorical.values === "undefined")              
+            if (!options.dataViews[0]
+                || !options.dataViews[0].categorical
+                || !options.dataViews[0].categorical.categories
+                || !options.dataViews[0].categorical.values)
                 return;
-            
-            // get categorical data from visual data view
+
             this.dataView = options.dataViews[0];
             // convert categorical data into specialized data structure for data binding
             this.controlChartViewModel = visualTransform(options, this.host);
