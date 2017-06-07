@@ -107,7 +107,7 @@ module powerbi.extensibility.visual {
     interface ChartDataPoint {
         xValue: any;
         yValue: number;
-        MRSum: number;
+    //    MRSum: number;
     };
 
     /**
@@ -188,7 +188,9 @@ module powerbi.extensibility.visual {
             || !dataViews[0].categorical
             || !dataViews[0].categorical.categories
             || !dataViews[0].categorical.categories[0].source
-            || !dataViews[0].categorical.values)
+            || !dataViews[0].categorical.values
+            || !dataViews[0].categorical.values[0].source
+            )
             return viewModel;
 
         let categorical = dataViews[0].categorical;
@@ -198,21 +200,29 @@ module powerbi.extensibility.visual {
         var xValues: PrimitiveValue[] = category.values;
         var yValues: PrimitiveValue[] = dataValue.values;
 
-        var isXAxisUsable: boolean = category.values[0] && ((Object.prototype.toString.call(category.values[0]) === '[object Number]') || (Object.prototype.toString.call(category.values[0]) === '[object Date]'));
-        var isYAxisNumericData: boolean = (dataValue.values[0] && Object.prototype.toString.call(dataValue.values[0]) === '[object Number]');
+      //  var isXAxisUsable: boolean = false;// category.values[0] && ((Object.prototype.toString.call(category.values[0]) === '[object Number]') || (Object.prototype.toString.call(category.values[0]) === '[object Date]'));
+        var isYAxisNumericData: boolean = false;// (dataValue.values[0] && Object.prototype.toString.call(dataValue.values[0]) === '[object Number]');
+        var xAxisType: string = "NotUsable";
 
-        if (isXAxisUsable && isYAxisNumericData) {
+        if (category.source.type.dateTime.valueOf() == true || category.source.type.numeric.valueOf() == true) {
+            if(category.source.type.dateTime.valueOf() == true )
+                xAxisType = "date";
+            else
+                xAxisType = "numeric";                    
+        }
+        if (dataValue.source.type.numeric.valueOf() == true) 
+            isYAxisNumericData = true;
+        
+        if (xAxisType != "NotUsable" && isYAxisNumericData) {
             for (let i = 0; i < xValues.length; i++) {
                 ChartDataPoints.push({
                     xValue: xValues[i],
                     yValue: <number>yValues[i],
-                    MRSum: 0
+                  //  MRSum: 0
                 });
-            }
-            var isDateRange: boolean = (Object.prototype.toString.call(ChartDataPoints[0].xValue) === '[object Date]');
-
+            }          
             var xAxisFormat: any;
-            if (isDateRange)
+            if (xAxisType == "date")
                 xAxisFormat = getValue<string>(dataViews[0].metadata.objects, 'xAxis', 'xAxisFormat', '%d-%b-%y');
             else
                 xAxisFormat = getValue<string>(dataViews[0].metadata.objects, 'xAxis', 'xAxisFormat', '.3s')
@@ -280,7 +290,7 @@ module powerbi.extensibility.visual {
                 meanLine: meanLine,
                 standardDeviations: getValue<number>(dataViews[0].metadata.objects, 'statistics', 'standardDeviations', 3),
                 showGridLines: getValue<boolean>(dataViews[0].metadata.objects, 'chart', 'showGridLines', true),
-                isDateRange: isDateRange,
+                isDateRange: (xAxisType == "date"),// isXAxisUsable,
                 runRule1: getValue<boolean>(dataViews[0].metadata.objects, 'rules', 'runRule1', false),
                 runRule2: getValue<boolean>(dataViews[0].metadata.objects, 'rules', 'runRule2', false),
                 runRule3: getValue<boolean>(dataViews[0].metadata.objects, 'rules', 'runRule3', false),
@@ -322,7 +332,6 @@ module powerbi.extensibility.visual {
             this.tooltipServiceWrapper = createTooltipServiceWrapper(this.host.tooltipService, options.element);
         }
 
-       // @logExceptions()
 
         public update(options: VisualUpdateOptions) {
             // remove all existing SVG elements 
