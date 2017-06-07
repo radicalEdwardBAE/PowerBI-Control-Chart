@@ -107,7 +107,7 @@ module powerbi.extensibility.visual {
     interface ChartDataPoint {
         xValue: any;
         yValue: number;
-    //    MRSum: number;
+        //    MRSum: number;
     };
 
     /**
@@ -190,7 +190,7 @@ module powerbi.extensibility.visual {
             || !dataViews[0].categorical.categories[0].source
             || !dataViews[0].categorical.values
             || !dataViews[0].categorical.values[0].source
-            )
+        )
             return viewModel;
 
         let categorical = dataViews[0].categorical;
@@ -200,30 +200,30 @@ module powerbi.extensibility.visual {
         var xValues: PrimitiveValue[] = category.values;
         var yValues: PrimitiveValue[] = dataValue.values;
 
-      //  var isXAxisUsable: boolean = false;// category.values[0] && ((Object.prototype.toString.call(category.values[0]) === '[object Number]') || (Object.prototype.toString.call(category.values[0]) === '[object Date]'));
+        //  var isXAxisUsable: boolean = false;// category.values[0] && ((Object.prototype.toString.call(category.values[0]) === '[object Number]') || (Object.prototype.toString.call(category.values[0]) === '[object Date]'));
         var isYAxisNumericData: boolean = false;// (dataValue.values[0] && Object.prototype.toString.call(dataValue.values[0]) === '[object Number]');
         var xAxisType: string = "NotUsable";
 
         if (category.source.type.dateTime.valueOf() == true || category.source.type.numeric.valueOf() == true) {
-            if(category.source.type.dateTime.valueOf() == true )
+            if (category.source.type.dateTime.valueOf() == true)
                 xAxisType = "date";
             else
-                xAxisType = "numeric";                    
+                xAxisType = "numeric";
         }
-        if (dataValue.source.type.numeric.valueOf() == true) 
+        if (dataValue.source.type.numeric.valueOf() == true)
             isYAxisNumericData = true;
-        
+
         if (xAxisType != "NotUsable" && isYAxisNumericData) {
             for (let i = 0; i < xValues.length; i++) {
                 ChartDataPoints.push({
                     xValue: xValues[i],
                     yValue: <number>yValues[i],
-                  //  MRSum: 0
+                    //  MRSum: 0
                 });
-            }          
+            }
             var xAxisFormat: any;
             if (xAxisType == "date")
-                xAxisFormat = getValue<string>(dataViews[0].metadata.objects, 'xAxis', 'xAxisFormat', '%d-%b-%y');
+                xAxisFormat = getValue<string>(dataViews[0].metadata.objects, 'xAxis', 'dateFormat', '%d-%b-%y');
             else
                 xAxisFormat = getValue<string>(dataViews[0].metadata.objects, 'xAxis', 'xAxisFormat', '.3s')
 
@@ -1270,18 +1270,34 @@ module powerbi.extensibility.visual {
                     instances.push(config);
                     break;
                 case 'xAxis':
-                    var config: VisualObjectInstance = {
-                        objectName: objectName,
-                        selector: null,
-                        properties: {
-                            xAxisTitle: viewModel.xAxis.AxisTitle,
-                            xAxisTitleColor: viewModel.xAxis.TitleColor,
-                            xAxisTitleSize: viewModel.xAxis.TitleSize,
-                            xAxisLabelColor: viewModel.xAxis.AxisLabelColor,
-                            xAxisLabelSize: viewModel.xAxis.AxisLabelSize,
-                            xAxisFormat: viewModel.xAxis.AxisFormat
-                        }
-                    };
+                    if (!viewModel.isDateRange) {
+                        var config: VisualObjectInstance = {
+                            objectName: objectName,
+                            selector: null,
+                            properties: {
+                                xAxisTitle: viewModel.xAxis.AxisTitle,
+                                xAxisTitleColor: viewModel.xAxis.TitleColor,
+                                xAxisTitleSize: viewModel.xAxis.TitleSize,
+                                xAxisLabelColor: viewModel.xAxis.AxisLabelColor,
+                                xAxisLabelSize: viewModel.xAxis.AxisLabelSize,
+                                xAxisFormat: viewModel.xAxis.AxisFormat
+                            }
+                        };
+                    }
+                    else {
+                        var config: VisualObjectInstance = {
+                            objectName: objectName,
+                            selector: null,
+                            properties: {
+                                xAxisTitle: viewModel.xAxis.AxisTitle,
+                                xAxisTitleColor: viewModel.xAxis.TitleColor,
+                                xAxisTitleSize: viewModel.xAxis.TitleSize,
+                                xAxisLabelColor: viewModel.xAxis.AxisLabelColor,
+                                xAxisLabelSize: viewModel.xAxis.AxisLabelSize,
+                                dateFormat: viewModel.xAxis.AxisFormat
+                            }
+                        };
+                    }
                     instances.push(config);
                     break;
                 case 'yAxis':
