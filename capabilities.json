@@ -405,31 +405,7 @@
                 },
                 "xAxisFormat": {
                     "type": {
-                        "enumeration": [
-                            {
-                                "displayName": "dd-mm",
-                                "value": "%d-%b"
-                            },
-                            {
-                                "displayName": "dd-mm-yy",
-                                "value": "%d-%b-%y"
-                            },
-                            {
-                                "displayName": "dd-mm-yy hh:mm",
-                                "value": "%d-%b-%y %H:%M"
-                            },
-                            {
-                                "displayName": "mm-yy",
-                                "value": "%b-%y"
-                            },
-                            {
-                                "displayName": "mm-dd-yy",
-                                "value": "%b-%d-%y"
-                            },
-                            {
-                                "displayName": "mm-dd-yy hh:mm",
-                                "value": "%b-%d-%y %H:%M"
-                            },
+                        "enumeration": [                           
                             {
                                 "displayName": "0",
                                 "value": ".1s"
@@ -457,6 +433,38 @@
                         ]
                     },
                     "displayName": "Axis Label Format",
+                    "description": "Select format for X Axis Labels"
+                },
+                "dateFormat": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "dd-mm",
+                                "value": "%d-%b"
+                            },
+                            {
+                                "displayName": "dd-mm-yy",
+                                "value": "%d-%b-%y"
+                            },
+                            {
+                                "displayName": "dd-mm-yy hh:mm",
+                                "value": "%d-%b-%y %H:%M"
+                            },
+                            {
+                                "displayName": "mm-yy",
+                                "value": "%b-%y"
+                            },
+                            {
+                                "displayName": "mm-dd-yy",
+                                "value": "%b-%d-%y"
+                            },
+                            {
+                                "displayName": "mm-dd-yy hh:mm",
+                                "value": "%b-%d-%y %H:%M"
+                            }
+                        ]
+                    },
+                    "displayName": "Date Format",
                     "description": "Select format for X Axis Labels"
                 }
             }
