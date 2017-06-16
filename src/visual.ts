@@ -1265,6 +1265,33 @@ module powerbi.extensibility.visual {
                             meanLineStyle: viewModel.meanLine.lineStyle,
                             standardDeviations: viewModel.standardDeviations,
                             movingRange: viewModel.movingRange
+                        },
+                        validValues: {
+                            stageDividerLabelSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
+                            },
+                            limitLabelSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
+                            },
+                            meanLabelSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
+                            }
+                            ,
+                            movingRange: {
+                                numberRange: {
+                                    min: 2,
+                                    max: 50
+                                }
+                            }
                         }
                     };
                     instances.push(config);
@@ -1281,7 +1308,21 @@ module powerbi.extensibility.visual {
                                 xAxisLabelColor: viewModel.xAxis.AxisLabelColor,
                                 xAxisLabelSize: viewModel.xAxis.AxisLabelSize,
                                 xAxisFormat: viewModel.xAxis.AxisFormat
+                            },
+                        validValues: {
+                            xAxisTitleSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
+                            },
+                            xAxisLabelSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
                             }
+                        }
                         };
                     }
                     else {
@@ -1296,6 +1337,21 @@ module powerbi.extensibility.visual {
                                 xAxisLabelSize: viewModel.xAxis.AxisLabelSize,
                                 dateFormat: viewModel.xAxis.AxisFormat
                             }
+                            ,
+                        validValues: {
+                            xAxisTitleSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
+                            },
+                            xAxisLabelSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
+                            }
+                        }
                         };
                     }
                     instances.push(config);
@@ -1311,6 +1367,20 @@ module powerbi.extensibility.visual {
                             yAxisLabelColor: viewModel.yAxis.AxisLabelColor,
                             yAxisLabelSize: viewModel.yAxis.AxisLabelSize,
                             yAxisFormat: viewModel.yAxis.AxisFormat
+                        },
+                        validValues: {
+                            yAxisTitleSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
+                            },
+                            yAxisLabelSize: {
+                                numberRange: {
+                                    min: 4,
+                                    max: 30
+                                }
+                            }
                         }
                     };
                     instances.push(config);

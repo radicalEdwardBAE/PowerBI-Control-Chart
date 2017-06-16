@@ -90,21 +90,4 @@ module powerbi.extensibility.visual {
         return defaultValue;
     }
     
-    export function logExceptions(): MethodDecorator {
-        return function (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<Function>)
-        : TypedPropertyDescriptor<Function> {
-            
-            return {
-                value: function () {
-                    try {
-                        return descriptor.value.apply(this, arguments);
-                    } catch (e) {
-                        console.error(e);
-                        throw e;
-                    }
-                }
-            }
-        }
-    }
-
 }
