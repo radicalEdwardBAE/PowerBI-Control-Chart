@@ -601,115 +601,13 @@ module powerbi.extensibility.visual {
 
         private static getTooltipData(value: any, datacolor: string, xFormat: any, yFormat: any): VisualTooltipDataItem[] {
             return [{
-                displayName: xFormat(value[0]).toString(),
+                header:  xFormat(value[0]).toString(),
+                displayName: '',
                 value: yFormat(value[1]).toString(),
                 color: datacolor
             }];
         }
-
-        private DrawCrossHairs() {
-            let viewModel: ControlChartViewModel = this.controlChartViewModel;
-            //     let crossHairLine = viewModel.crossHairLine;
-            var xScale = this.xScale;
-            var yScale = this.yScale;
-            //add focus lines and circle
-            var plot = this.plot;
-            var point = [];
-            for (let i = 0; i < viewModel.dataPoints.length; i++) {
-                var ob = viewModel.dataPoints[i];
-                var dtDate: any = new Date(ob.xValue);
-                var x = ob.xValue;
-                var y = ob.yValue;
-                //creating line points                         
-                point.push([x, y]);
-            }
-            var focus = this.svgGroupMain.append("g")
-                .style("display", "none");
-            focus.append("circle")
-                .attr("class", "y")
-                .style("fill", "none")
-                .style("stroke", "red")
-                .attr("id", "focuscircle")
-                .attr("r", 4);
-            focus.append('line')
-                .attr('id', 'focusLineX')
-                .attr('class', 'focusLine');
-            focus.append('line')
-                .attr('id', 'focusLineY')
-                .attr('class', 'focusLine');
-            focus.append("text")
-                .attr('id', 'labelText')
-                .attr("x", 9)
-                .attr("dy", ".35em");
-            focus.append("text")
-                .attr('id', 'yAxisText')
-                .attr("dy", ".35em");
-            focus.append("text")
-                .attr('id', 'xAxisText')
-                .attr("dx", ".15em");
-            // append the rectangle to capture mouse
-            this.svgGroupMain.append("rect")
-                .attr("width", plot.width)
-                .attr("height", plot.height)
-                .style("fill", "none")
-                .style("pointer-events", "all")
-                .on("mouseover", function () { focus.style("display", "null"); })
-                .on("mouseout", function () { focus.style("display", "none"); })
-                .on("mousemove", mousemove);
-            var bisectDate = d3.bisector(function (d) { return d[0]; }).left;
-
-            function mousemove() {
-                var x0 = xScale.invert(d3.mouse(this)[0]);
-                var i = bisectDate(point, x0)
-                var d0 = point[i - 1];
-                var d1 = point[i];
-                var d = x0 - d0[0] > d1[0] - x0 ? d1 : d0;
-                var x = xScale(d[0]);
-                var y = yScale(d[1]);
-
-                focus.select('#focuscircle')
-                    .attr('cx', x)
-                    .attr('cy', y);
-
-                var xDomain = [viewModel.minX, viewModel.maxX];
-                var yDomain = ([viewModel.minY, viewModel.maxY]);
-                var yScale2 = d3.scale.linear().range([plot.height, 0]).domain(yDomain);
-
-                /*        focus.select('#focusLineX')
-                            .attr('x1', x).attr('y1', yScale2(yDomain[0]))
-                            .attr('x2', x).attr('y2', yScale2(yDomain[1]))
-                            .style("stroke", crossHairLine.lineColor);
-                        focus.select('#focusLineY')
-                            .attr('x1', xScale(xDomain[0])).attr('y1', y)
-                            .attr('x2', xScale(xDomain[1])).attr('y2', y)
-                            .style("stroke", crossHairLine.lineColor);
-        
-                        var dateFormat;
-                        if (viewModel.isDateRange)
-                            dateFormat = d3.time.format(viewModel.xAxis.AxisFormat);
-                        else
-                            dateFormat = d3.format(viewModel.xAxis.AxisFormat);
-        
-                        var yAxisFormat = d3.format(viewModel.yAxis.AxisFormat);
-                        focus.select('#yAxisText')
-                            .text(yAxisFormat(d[1]).toString())
-                            .attr("y", y)
-                            .style("text-anchor", "end")
-                            .attr("dx", "-.15em")
-                            .style("font-size", crossHairLine.textSize + 'px')
-                            .style("fill", crossHairLine.textColor);
-        
-                        focus.select('#xAxisText')
-                            .text(dateFormat(d[0]).toString())
-                            .attr("y", plot.height)
-                            .attr("x", x)
-                            .style("text-anchor", "middle")
-                            .attr("dy", ".95em")
-                            .style("font-size", crossHairLine.textSize + 'px')
-                            .style("fill", crossHairLine.textColor);*/
-            }
-        }
-
+       
         private GetStages() {
             let stage: Stage = {
                 uCL: 0,
@@ -862,17 +760,18 @@ module powerbi.extensibility.visual {
                 xFormat = d3.format(viewModel.xAxis.AxisFormat);
 
             this.tooltipServiceWrapper.addTooltip(mean,
-                (tooltipEvent: TooltipEventArgs<number>) => ControlChart.getTooltipMeanData(tooltipEvent.data, mLine.textColor, 'Mean', yformatValue),
+                (tooltipEvent: TooltipEventArgs<number>) => ControlChart.getTooltipMeanData(tooltipEvent.data, mLine.textColor, yformatValue),
                 (tooltipEvent: TooltipEventArgs<number>) => null);
             this.tooltipServiceWrapper.addTooltip(meanText,
-                (tooltipEvent: TooltipEventArgs<number>) => ControlChart.getTooltipMeanData(tooltipEvent.data, mLine.textColor, 'Mean', yformatValue),
+                (tooltipEvent: TooltipEventArgs<number>) => ControlChart.getTooltipMeanData(tooltipEvent.data, mLine.textColor, yformatValue),
                 (tooltipEvent: TooltipEventArgs<number>) => null);
 
         }
 
-        private static getTooltipMeanData(value: any, datacolor: string, label: any, yFormat: any): VisualTooltipDataItem[] {
+        private static getTooltipMeanData(value: any, datacolor: string, yFormat: any): VisualTooltipDataItem[] {
             return [{
-                displayName: label,
+                header: 'Mean',
+                displayName: '',
                 value: yFormat(value['y2']).toString(),
                 color: datacolor
             }];
@@ -997,7 +896,8 @@ module powerbi.extensibility.visual {
 
         private static getTooltipDividerText(value: any, datacolor: string): VisualTooltipDataItem[] {
             return [{
-                displayName: 'Subgroup',
+                header: 'Subgroup',
+                displayName: '',
                 value: value['stageName'].toString(),
                 color: datacolor
             }];
@@ -1071,7 +971,8 @@ module powerbi.extensibility.visual {
 
         private static getTooltipLimitData(value: any, datacolor: string, label: any, yFormat: any): VisualTooltipDataItem[] {
             return [{
-                displayName: label,
+                header: label,
+                displayName: '',
                 value: yFormat(value['y1']).toString(),
                 color: datacolor
             }];
