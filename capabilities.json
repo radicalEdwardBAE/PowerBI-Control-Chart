@@ -190,9 +190,7 @@
                 },
                 "stageDividerLabelSize": {
                     "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
+                        "integer": true
                     },
                     "displayName": "Stage Divider Label Size",
                     "description": "Select Label size"
@@ -249,9 +247,7 @@
                 },
                 "limitLabelSize": {
                     "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
+                        "integer": true
                     },
                     "displayName": "Limit Label Size",
                     "description": "Select UCL and LCL Label size"
@@ -308,9 +304,7 @@
                 },
                 "meanLabelSize": {
                     "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
+                        "integer": true
                     },
                     "displayName": "Mean Label Size",
                     "description": "Select Mean Label size"
@@ -351,7 +345,7 @@
                 },
                 "movingRange": {
                     "type": {
-                        "numeric": true
+                        "integer": true
                     },
                     "displayName": "Moving Range",
                     "description": "Select Moving Range for estimation of standard deviation"
@@ -379,9 +373,7 @@
                 },
                 "xAxisTitleSize": {
                     "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
+                        "integer": true
                     },
                     "displayName": "Title Size"
                 },
@@ -397,15 +389,13 @@
                 },
                 "xAxisLabelSize": {
                     "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
+                        "integer": true
                     },
                     "displayName": "Axis Label Size"
                 },
                 "xAxisFormat": {
                     "type": {
-                        "enumeration": [                           
+                        "enumeration": [
                             {
                                 "displayName": "0",
                                 "value": ".1s"
@@ -490,9 +480,7 @@
                 },
                 "yAxisTitleSize": {
                     "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
+                        "integer": true
                     },
                     "displayName": "Title Size"
                 },
@@ -508,9 +496,7 @@
                 },
                 "yAxisLabelSize": {
                     "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
+                        "integer": true
                     },
                     "displayName": "Axis Label Size"
                 },
