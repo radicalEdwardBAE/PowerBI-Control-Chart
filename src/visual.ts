@@ -458,9 +458,9 @@ module powerbi.extensibility.visual {
             var yMin: number = d3.min(lclLines, function (d) { return d['y1'] });
             yMin = Math.min(dataMin, yMin);
             if (yMin < 0)
-                yMin = yMin * 1.05;
+                yMin = 0;
             else
-                yMin = yMin * 0.95;
+                yMin = 0;
 
             yMax = Math.max(dataMax, yMax);
             if (yMax > 0)
